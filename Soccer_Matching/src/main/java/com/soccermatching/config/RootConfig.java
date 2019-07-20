@@ -13,8 +13,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class RootConfig {
 	private String driverClassName = "com.mysql.jdbc.Driver";
 	private String url = "jdbc:mysql://localhost:3306/soccer_matching";
-	private String userName = "newuser";
-	private String password = "newuser";
+	private String userName = "root";
+	private String password = "54321";
 	
 	@Bean
 	public DataSource dataSource() {
