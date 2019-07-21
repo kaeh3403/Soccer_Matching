@@ -73,6 +73,8 @@
             </div>
         </div>
     </div>
+    <h2>${mypage}</h2>
+    
 </body>
 
 </html>

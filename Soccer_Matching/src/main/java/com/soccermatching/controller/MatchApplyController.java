@@ -18,7 +18,7 @@ public class MatchApplyController {
 	@Autowired
 	private MatchApplyDAO matchApplyDAO;
 	
-	@GetMapping("member/{memberNumber}")
+	@GetMapping("/member/{memberNumber}")
 	public List<MatchApplyDTO> getApplies(@PathVariable("memberNumber") int memberNumber) {
 		return matchApplyDAO.readAppliedMatch(memberNumber);
 	}
