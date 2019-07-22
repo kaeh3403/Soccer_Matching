@@ -20,7 +20,7 @@ public class MemberRegisterController {
 
 	@GetMapping
 	public String get() {
-		return "member_register";
+		return "member-register";
 	}
 
 	@PostMapping

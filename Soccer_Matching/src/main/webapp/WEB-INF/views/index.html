@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -147,11 +147,9 @@ transform: translate3d(0, -30px, 0);
 $(function() {
 var welcomeSection = $('.welcome-section'),
 enterButton = welcomeSection.find('.enter-button');
-
 setTimeout(function() {
 welcomeSection.removeClass('content-hidden');
 }, 800);
-
 enterButton.on('click', function(e) {
 e.preventDefault();
 welcomeSection.addClass('content-hidden').fadeOut();
@@ -161,7 +159,6 @@ welcomeSection.addClass('content-hidden').fadeOut();
 <script>
 var request = new XMLHttpRequest();
 request.onreadystatechange = msg;
-
 function msg(){
 	if(request.readyState == request.DONE && request.status == 302){
 		var msg = request.responseText;
