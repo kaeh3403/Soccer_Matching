@@ -10,6 +10,8 @@ public interface MemberDAO {
 	public List<MemberDTO> readAll();
 
 	public MemberDTO read(int number);
+	
+	public MemberDTO read(String id);
 
 	public void create(MemberDTO memberDTO);
 

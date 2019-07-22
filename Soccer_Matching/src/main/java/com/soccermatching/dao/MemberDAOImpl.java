@@ -27,6 +27,11 @@ public class MemberDAOImpl implements MemberDAO {
 	public MemberDTO read(int number) {
 		return jdbcTemplate.queryForObject("select * from member where number = ?", new MemberDTOMapper(), number);
 	}
+	
+	@Override
+	public MemberDTO read(String id) {
+		return jdbcTemplate.queryForObject("select * from member where id like ?", new MemberDTOMapper(), id);
+	}
 
 	@Override
 	public void create(MemberDTO memberDTO) {
