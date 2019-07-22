@@ -1,5 +1,5 @@
 (function() {
-  use strict ';																									
+  'use strict ';																									
   window.addEventListener('load', function() {
     // Get the forms we want to add validation styles to																									
     var forms = document.getElementsByClassName('needs-validation');
@@ -56,12 +56,12 @@
           event.preventDefault();
           event.stopPropagation();
         }
-        if (form.checkValidity() === true && id_flag == false) {
+        /*if (form.checkValidity() === true && id_flag == false) {
           event.preventDefault();
           event.stopPropagation();
           alert("중복확인이 되지 않았습니다.");
           return false;
-        } else { // 서버로 데이터 전송																									
+        }*/ else { // 서버로 데이터 전송																									
           var reqeust = new XMLHttpRequest();
           if (reqeust.readyState === reqeust.DONE && request.status === 200) {
             if (request.responseText === "success") {

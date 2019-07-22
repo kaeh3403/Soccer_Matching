@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @ComponentScan(basePackages = { "com.soccermatching" })
 public class RootConfig {
 	private String driverClassName = "com.mysql.jdbc.Driver";
-	private String url = "jdbc:mysql://localhost:3306/soccer_matching";
+	private String url = "jdbc:mysql://localhost:3306/soccer_matching?characterEncoding=utf-8&useUnicode=true&mysqlEncoding=utf-8";
 	private String userName = "newuser";
 	private String password = "newuser";
 	
