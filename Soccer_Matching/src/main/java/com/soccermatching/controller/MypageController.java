@@ -23,12 +23,12 @@ public class MypageController {
 	@Autowired
 	private MypageDAO MypageDAO;
 	
-	@GetMapping("apply/{number}")
+	@GetMapping("match-applies/member/{number}")
 	public List<MatchBoardDTO> applyList(@PathVariable("number") int number) {
 		return MypageDAO.ApplyList(number);
 	}
 	
-	@GetMapping("register/{number}")
+	@GetMapping("match-boards/author/{number}")
 	public List<MatchBoardDTO> registerList(@PathVariable("number") int number) {
 		return MypageDAO.RegisterList(number);
 		
