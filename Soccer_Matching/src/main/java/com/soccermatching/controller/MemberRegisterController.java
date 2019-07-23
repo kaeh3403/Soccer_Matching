@@ -1,5 +1,7 @@
 package com.soccermatching.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +26,12 @@ public class MemberRegisterController {
 	}
 
 	@PostMapping
-	public String register(MemberDTO memberDTO, RedirectAttributes redirectAttributes) {
+	public String register(MemberDTO memberDTO, HttpServletResponse response) {
 		System.out.println(memberDTO);
 		
 		memberDAO.create(memberDTO);
+		
+		response.addHeader("msg", String.valueOf(1));
 
 		return "redirect:/";
 	}

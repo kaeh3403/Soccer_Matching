@@ -2,11 +2,11 @@ package com.soccermatching.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -26,7 +26,12 @@ public class MatchBoardDAOImpl implements MatchBoardDAO {
 
 	@Override
 	public MatchBoardDTO read(int number) {
-		return jdbcTemplate.queryForObject("select * from match_board where number = ?", new MatchBoardDTOMapper(), number);
+		try {
+			return jdbcTemplate.queryForObject("select * from match_board where number = ?", new MatchBoardDTOMapper(),
+					number);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -36,8 +41,8 @@ public class MatchBoardDAOImpl implements MatchBoardDAO {
 				matchBoardDTO.getAuthor(), matchBoardDTO.getAddress(), matchBoardDTO.getDetailAddress(),
 				matchBoardDTO.getPlaceName(), matchBoardDTO.getDate(), matchBoardDTO.getStartTime(),
 				matchBoardDTO.getStartTimeMinutes(), matchBoardDTO.getEndTime(), matchBoardDTO.getEndTimeMinutes(),
-				matchBoardDTO.getGameType(), matchBoardDTO.getGender(), matchBoardDTO.getDetailInfo(), matchBoardDTO.getNumberAppliable(),
-				matchBoardDTO.getX(), matchBoardDTO.getY());
+				matchBoardDTO.getGameType(), matchBoardDTO.getGender(), matchBoardDTO.getDetailInfo(),
+				matchBoardDTO.getNumberAppliable(), matchBoardDTO.getX(), matchBoardDTO.getY());
 	}
 
 	@Override

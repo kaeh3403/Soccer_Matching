@@ -1,16 +1,20 @@
-
 document.addEventListener('DOMContentLoaded', function() {
-
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: ['dayGrid', 'list', 'bootstrap', 'interaction', ],
         locale: 'ko', //언어설정
         height: '700', // 전체 테이블 높이 설정
         aspectRatio: 1.46, //가로 세로 비율 가로/세로
-        eventsTextColor: 'white', //이벤트 글자 색
+        eventTextColor: '#ffffff', //이벤트 글자 색
         eventTimeFormat: { // 이벤트 날짜 포캣
             hour: 'numeric',
-            meridiem: 'short'
+            meridiem: '2-digit'
+        },
+        
+        views:{
+           list:{
+              duration: { days: 30}
+           }
         },
         displayEventTime: true, //이벤트의 시간 표시 여부
 
@@ -139,7 +143,7 @@ function getTwoDigitMinutes(minutes) {
 }
 
 function loadMatch(target) {
-	var number = target.lastChild.lastChild.textContent;
-	window.localStorage.setItem("number", number);
+   var number = target.lastChild.lastChild.textContent;
+   window.localStorage.setItem("number", number);
     window.location.href = "match-result.html";
 }
