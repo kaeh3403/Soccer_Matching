@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>축구사이트</title>
     <!-- Latest compiled and minified CSS -->
@@ -22,7 +23,6 @@
     <!-- services 라이브러리 불러오기 -->
     <!-- services와 clusterer, drawing 라이브러리 불러오기 -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b187315c60d45782c7546f0eaf4d3bc&libraries=services,clusterer,drawing"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
@@ -39,7 +39,7 @@
             <nav id="secondHeader">
                 <ul id="navHeader">
                     <li>
-                        <a href="#" data-toggle="modal" data-target="#matchModal" style="color:black">로그인</a>
+                        <a href="main.html" data-toggle="modal" data-target="#matchModal" style="color:black">로그인</a>
                     </li>
                     <li>
                         <a href="register" style="color:black">회원가입</a>
@@ -62,14 +62,14 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <form method="post">
+                        <form action="/action_page.php">
                             <div class="form-group">
                                 <label for="email">ID</label>
-                                <input type="text" class="form-control" id="email" name="id">
+                                <input type="email" class="form-control" id="email">
                             </div>
                             <div class="form-group">
                                 <label for="pwd">비밀번호</label>
-                                <input type="password" class="form-control" id="pwd" name="password">
+                                <input type="password" class="form-control" id="pwd">
                             </div>
                             <br/>
                             <button type="submit" class="btn btn-primary" style="position:relative;left:35%;background-color:rgb(89, 196, 103);">로그인</button><br/><br/>
@@ -92,74 +92,46 @@
             <div id="sidebar">
                 <div id="tab">
                     <ul>
-                        <li>
+                        <li onclick="changeDate(this)">
                             <p class="p_date"><span id="month1"></span>.<span id="day1"></span></p>
                             <p id="dayOfWeek1" class="day"></p>
                         </li>
-                        <li>
+                        <li onclick="changeDate(this)">
                             <p class="p_date"><span id="month2"></span>.<span id="day2"></span></p>
                             <p id="dayOfWeek2" class="day"></p>
                         </li>
-                        <li>
+                        <li onclick="changeDate(this)">
                             <p class="p_date"><span id="month3"></span>.<span id="day3"></span></p>
                             <p id="dayOfWeek3" class="day"></p>
                         </li>
-                        <li>
+                        <li onclick="changeDate(this)">
                             <p class="p_date"><span id="month4"></span>.<span id="day4"></span></p>
                             <p id="dayOfWeek4" class="day"></p>
                         </li>
-                        <li>
+                        <li onclick="changeDate(this)">
                             <p class="p_date"><span id="month5"></span>.<span id="day5"></span></p>
                             <p id="dayOfWeek5" class="day"></p>
                         </li>
-                        <li>
+                        <li onclick="changeDate(this)">
                             <p class="p_date"><span id="month6"></span>.<span id="day6"></span></p>
                             <p id="dayOfWeek6" class="day"></p>
                         </li>
-                        <li>
+                        <li onclick="changeDate(this)">
                             <p class="p_date"><span id="month7"></span>.<span id="day7"></span></p>
                             <p id="dayOfWeek7" class="day"></p>
                         </li>
                     </ul>
                 </div>
-                <div is="short-content" v-for="match in matches" v-bind:key="match.number" v-bind:number = "match.number" v-bind:gender="match.gender" v-bind:time="match.time" v-bind:title="match.title"></div>
             </div>
         </section>
 
         <footer>조원 : 임홍휘, 김성규, 박상준, 김현민, 이원희</footer>
     </div>
-	
+   
     
     <script type="text/javascript" src="js/main-map.js"></script>
     <script type="text/javascript" src="js/basic.js"></script>
-    <script>
-    	var matches = [
-    		{number: 1, title : "이문동 이마트",  time: "13:00", gender:"남성", y:37, x: 127}, 
-    		{number: 2, title : "용산 아이파크 몰 	3구장", time: "15:00", gender:"남성", y:37, x: 127},
-    		{number: 3, title : "용산 아이파크 몰 2구장", time: "13:00", gender:"남성", y:37, x: 127},
-    		{number: 4, title : "용산 아이파크 몰 1구장", time: "19:00", gender:"누구나", y:37, x: 127},
-    	];
-    	
-    	Vue.component('short-content',{
-    		template: "<div class='contents' onclick='detailShow(this)'><div class='matchTime' style='font-size: 25px;'>{{time}}</div><div class='matchContent'><p class='matchTitle' style='font-size:22px;margin-bottom:0px;'>{{ title }}</p><p class='matchOther'><span>{{gender}}</span><span style='display:none'>{{number}}</span></p></div></div>",
-    		props: ['time','gender','title','number']
-    	})
-    	
-		var vm = new Vue({
-			el: '#sidebar',
-			data: {
-				matches:matches
-			}
-		})
-    	function detailShow(target){
-    		var number = target.lastChild.lastChild.lastChild.textContent;
-    		window.localStorage.setItem("number", number);
-    		window.location.href = "match-result.html";
-    	}
-    	
-    	var msg = "[[${msg}]]";
-    	console.log(msg);
-    </script>
+    
 </body>
 
 </html>

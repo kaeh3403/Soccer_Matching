@@ -1,11 +1,20 @@
 var lat= "";
 var lng = "";
 var data = "";
+var matches = "";
 var map = "";
-var mapContainer = document.getElementById('map'); // 지도를 표시할 div
-//임시데이터
+var clusterer;
+
+var swLat;
+var swLng;
+var neLat;
+var neLng;
 var posData = new Array();
-var markers;
+var clickedDay = new Date().getDate();
+
+
+var mapContainer = document.getElementById('map'); // 지도를 표시할 div
+
 
 navigator.geolocation.getCurrentPosition(success, error);
 
@@ -30,55 +39,125 @@ function loadMap(lat,lng){
    
    //지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
    map = new kakao.maps.Map(mapContainer, mapOption);
-}
-
-
-
-function getPosData(){
+   getNELatLng();
+   getSWLatLng();
+   clustering();
+   removeList();
+   getList();
+   kakao.maps.event.addListener(map, 'bounds_changed', function() {
+      getNELatLng();
+      getSWLatLng();
+      removeList();
+      getList();
+   });
+   
    
 }
-var request = new XMLHttpRequest();
-request.open("GET", "api/match-boards", true);
-request.onreadystatechange = clustering;
-request.send(null);
 
 function clustering(){
-   if(request.readyState == request.DONE && request.status == 200){
-      data = request.responseText;
-      var json = JSON.parse(data);
-      for (var i= 0; i< json.length; i++){
-    	 var tempObj = new Object();
-         tempObj.lat = json[i].y;
-         tempObj.lng = json[i].x;
-         posData.push(tempObj);
-         console.log("x: " + json[i].x);
-         console.log("y: " + json[i].y);
-      };
-      markers = posData.map(function(position, i){
-           return new kakao.maps.Marker({
-               position : new kakao.maps.LatLng(position.lat, position.lng)
-           });
-       });
-      
-      var clusterer = new kakao.maps.MarkerClusterer({
-          map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
-          averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-          minLevel: 10, // 클러스터 할 최소 지도 레벨
-          disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다
-      });
-      
-      clusterer.addMarkers(markers);
-      
-      // 마커 클러스터러에 클릭이벤트를 등록합니다
-       // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
-       // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
-       kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-           // 현재 지도 레벨에서 1레벨 확대한 레벨
-           var level = map.getLevel()-1;
-           // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
-           map.setLevel(level, {anchor: cluster.getCenter()});
-       });    
-   }else{
-      alert("네트워크 오류 발생");
+   
+   
+   clusterer = new kakao.maps.MarkerClusterer({
+         map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+         averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+         minLevel: 11, // 클러스터 할 최소 지도 레벨
+         disableClickZoom: true // 클러스터 마커를 클릭했을 때 지도가 확대되지 않도록 설정한다
+   });
+   
+   var request = new XMLHttpRequest();
+   request.open("GET", "api/match-boards", false);
+   request.onreadystatechange = dataSaving;
+   request.send(null);
+   
+   function dataSaving(){
+      if(request.readyState == request.DONE && request.status == 200){
+         data = request.responseText;
+         matches = JSON.parse(data);
+         for (var i= 0; i< matches.length; i++){
+            var tempObj = new Object();
+            tempObj.lat = matches[i].y;
+            tempObj.lng = matches[i].x;
+            posData.push(tempObj);
+         };
+         var markers = posData.map(function(position, i){
+              return new kakao.maps.Marker({
+                  position : new kakao.maps.LatLng(position.lat, position.lng)
+              });
+          });
+         
+         clusterer.addMarkers(markers);
+      }
    }
+      
+   // 마커 클러스터러에 클릭이벤트를 등록합니다
+    // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
+    // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
+    kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+        // 현재 지도 레벨에서 1레벨 확대한 레벨
+        var level = map.getLevel()-1;
+        // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
+        map.setLevel(level, {anchor: cluster.getCenter()});
+    });
+}
+
+function getSWLatLng() {
+    // 영역의 남서쪽 좌표를 얻어옵니다 
+    var swLatLng = map.getBounds().getSouthWest(); 
+    swLat = swLatLng.Ga;
+    swLng = swLatLng.Fa;
+}
+
+function getNELatLng(){
+    // 영역의 북동쪽 좌표를 얻어옵니다
+   var neLatLng = map.getBounds().getNorthEast();
+   neLat = neLatLng.Ga;
+    neLng = neLatLng.Fa;
+}
+
+function getList(){
+   var list = matches.map(function(match, i){
+      if(swLat < Number(match.y) && neLat > Number(match.y) && swLng < Number(match.x) && neLng > Number(match.x) && clickedDay == new Date(new Date(match.date)).getDate()){
+         var newDiv = document.createElement("div");
+         newDiv.setAttribute("class","contents");
+         newDiv.setAttribute("onclick","detailShow(this)");
+         newDiv.innerHTML =
+            "<div class='matchTime' style='font-size: 25px;'id='time'>" + match.startTime+ ":"+ getTwoDigit(match.startTimeMinutes)+"</div>" + 
+            "<div class='matchContent'>"+
+               "<p class='matchTitle' style='font-size:22px;margin-bottom:0px;'id='placeName'>" + match.placeName + "</p>" +
+               "<p class='matchOther'>" + 
+                  "<span id='match_gender'>" + match.gender + "</span>" + 
+                  "<span style='display:none' id='match_number'>"+ match.number+"</span>"+
+               "</p>"+
+            "</div>";
+         document.getElementById("sidebar").appendChild(newDiv);
+      }
+   })
+}
+
+function removeList(){
+   
+   var remove = document.getElementsByClassName("contents");
+   for(var i=0; i < remove.length; i++){
+      remove[i].parentNode.removeChild(remove[i]);
+   }
+}
+
+function detailShow(target){
+   var number = target.lastChild.lastChild.lastChild.textContent;
+   window.sessionStorage.setItem("number",number)
+   window.location.href = "main_match_result.html";
+}
+
+function getTwoDigit(min){
+   if(min < 10){
+      return '0' + min;
+   } else{
+      return min
+   }
+}
+
+function changeDate(el){
+   clickedDay = el.childNodes[1].childNodes[2].textContent;
+   removeList();
+   getList();
 }
