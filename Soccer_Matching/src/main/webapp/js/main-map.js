@@ -104,19 +104,20 @@ function getSWLatLng() {
     // 영역의 남서쪽 좌표를 얻어옵니다 
     var swLatLng = map.getBounds().getSouthWest(); 
     swLat = swLatLng.Ga;
-    swLng = swLatLng.Fa;
+    swLng = swLatLng.Ha;
 }
 
 function getNELatLng(){
     // 영역의 북동쪽 좌표를 얻어옵니다
    var neLatLng = map.getBounds().getNorthEast();
    neLat = neLatLng.Ga;
-    neLng = neLatLng.Fa;
+    neLng = neLatLng.Ha;
 }
 
 function getList(){
    var list = matches.map(function(match, i){
-      if(swLat < Number(match.y) && neLat > Number(match.y) && swLng < Number(match.x) && neLng > Number(match.x) && clickedDay == new Date(new Date(match.date)).getDate()){
+      if(swLat < Number(match.x) && neLat > Number(match.x) && swLng < Number(match.y) && neLng > Number(match.y) && Number(clickedDay) == new Date(new Date(match.date)).getDate()){
+    	  
          var newDiv = document.createElement("div");
          newDiv.setAttribute("class","contents");
          newDiv.setAttribute("onclick","detailShow(this)");
@@ -157,7 +158,9 @@ function getTwoDigit(min){
 }
 
 function changeDate(el){
-   clickedDay = el.childNodes[1].childNodes[2].textContent;
-   removeList();
-   getList();
-}
+	   clickedDay = el.childNodes[1].childNodes[2].textContent;
+	   for(var i=0;i<el.parentNode.children.length; i++){
+	      el.parentNode.children[i].style.background = "white";
+	   }
+	   el.style.background = "#cccccc";
+	}

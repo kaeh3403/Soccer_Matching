@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -25,12 +26,21 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public MemberDTO read(int number) {
-		return jdbcTemplate.queryForObject("select * from member where number = ?", new MemberDTOMapper(), number);
+		try {
+			return jdbcTemplate.queryForObject("select * from member where number = ?", new MemberDTOMapper(), number);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+
 	}
-	
+
 	@Override
 	public MemberDTO read(String id) {
-		return jdbcTemplate.queryForObject("select * from member where id like ?", new MemberDTOMapper(), id);
+		try {
+			return jdbcTemplate.queryForObject("select * from member where id like ?", new MemberDTOMapper(), id);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -40,14 +50,14 @@ public class MemberDAOImpl implements MemberDAO {
 				memberDTO.getId(), memberDTO.getPassword(), memberDTO.getName(), memberDTO.getGender(),
 				memberDTO.getCphone(), memberDTO.getBirthday(), memberDTO.getEmail());
 	}
-	
+
 	@Override
-	public void update(String password, String name, String gender, String cphone, Date birthday,String email,
+	public void update(String password, String name, String gender, String cphone, Date birthday, String email,
 			int number) {
 		jdbcTemplate.update(
 				"update member set password = ?, name = ?, gender = ?, cphone = ?, birthday = ?, email = ? where number = ?",
 				password, name, gender, cphone, birthday, email, number);
-		
+
 	}
 
 	@Override
