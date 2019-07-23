@@ -28,10 +28,8 @@ public class MemberRegisterController {
 		System.out.println(memberDTO);
 		
 		memberDAO.create(memberDTO);
-		
-		//redirectAttributes.addFlashAttribute("msg", 1);
 
-		return "redirect:/?msg=1";
+		return "redirect:/";
 	}
 
 }
