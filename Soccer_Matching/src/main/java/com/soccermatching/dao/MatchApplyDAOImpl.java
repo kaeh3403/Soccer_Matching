@@ -48,4 +48,10 @@ public class MatchApplyDAOImpl implements MatchApplyDAO {
 		
 	}
 
+	@Override
+	public void cancel(int memberNumber) {
+		jdbcTemplate.update("delete from match_apply where number = ?", memberNumber);
+		
+	}
+
 }
