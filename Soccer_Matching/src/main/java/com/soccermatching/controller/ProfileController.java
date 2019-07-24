@@ -15,10 +15,10 @@ import com.soccermatching.dto.MemberDTO;
 @Controller
 @RequestMapping("/profile")
 public class ProfileController {
-	
+
 	@Autowired
 	private MemberDAO memberDAO;
-	
+
 	@GetMapping
 	public String get(Principal principal, HttpServletResponse response) {
 		if (principal != null) {
@@ -29,7 +29,7 @@ public class ProfileController {
 			response.addHeader("Member-Number", String.valueOf(memberDTO.getNumber()));
 
 		}
-		
+
 		return "mypage";
 	}
 
