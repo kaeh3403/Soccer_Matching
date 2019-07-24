@@ -3,39 +3,40 @@ var data;
 var parsedData;
 var calData;
 var calendar;
+var number;
 
 document.addEventListener('DOMContentLoaded', function() {
 
-	var request = new XMLHttpRequest();
-	request.open("GET", "/profile", true);
-	request.onreadystatechange = getData;
-	request.send();
+   var request = new XMLHttpRequest();
+   request.open("GET", "/profile", true);
+   request.onreadystatechange = getData;
+   request.send();
 
-	function getData(){
-		   if(request.readyState == request.HEADERS_RECEIVED){
-		      memberNum = request.getResponseHeader("Member-Number");
-		  var dataRead = new XMLHttpRequest();
-		  dataRead.open("GET", "/profile/info",true);
-		  dataRead.onreadystatechange = getContents;
-		  dataRead.send();
-		  function getContents(){
-		     if(dataRead.readyState == 4 && dataRead.status==200){
-		        data = dataRead.responseText;
-		        parsedData = JSON.parse(data);
-		        document.getElementById("id").textContent = parsedData[0].name;
-		        calData = new Array();
-		        calData = getEvents(parsedData);
-		        getCalendar(calData);
-		     }else{
-		        alert("데이터를 불러오지 못했습니다.")
-		         }
-		      }
-		   }
-		}
+   function getData(){
+         if(request.readyState == request.HEADERS_RECEIVED){
+            memberNum = request.getResponseHeader("Member-Number");
+        var dataRead = new XMLHttpRequest();
+        dataRead.open("GET", "/profile/info",true);
+        dataRead.onreadystatechange = getContents;
+        dataRead.send();
+        function getContents(){
+           if(dataRead.readyState == 4 && dataRead.status==200){
+              data = dataRead.responseText;
+              parsedData = JSON.parse(data);
+              document.getElementById("id").textContent = parsedData[0].name;
+              calData = new Array();
+              calData = getEvents(parsedData);
+              getCalendar(calData);
+           }else{
+              alert("데이터를 불러오지 못했습니다.")
+               }
+            }
+         }
+      }
 })
 
 function getCalendar(calData){
-	var calendarEl = document.getElementById('calendar');
+   var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: ['dayGrid', 'list', 'bootstrap', 'interaction', ],
         locale: 'ko', //언어설정
@@ -46,13 +47,13 @@ function getCalendar(calData){
             hour: 'numeric',
             meridiem: '2-digit'
         },
+        events: calData,
         views:{
            list:{
               duration: { days: 30}
            }
         },
         displayEventTime: true, //이벤트의 시간 표시 여부
-        events: calData,
         header: {
             left: 'prev,,next today',
             center: 'title',
@@ -87,7 +88,9 @@ function getCalendar(calData){
             }
         }
     });
+    
     calendar.render();
+    
     ilkilling();
 }
 
@@ -153,7 +156,7 @@ function modalBody(info) {
     }
     container.appendChild(contentsDiv);
     var numberNode = document.createElement("span");
-    var number = 1
+    number = info.event.id;
     numberNode.innerHTML = number;
     numberNode.style.display = "none";
     contentDiv.appendChild(numberNode);
@@ -170,44 +173,40 @@ function getTwoDigitMinutes(minutes) {
 function loadMatch(target) {
    var number = target.lastChild.lastChild.textContent;
    window.localStorage.setItem("number", number);
-    window.location.href = "match-result.html";
+    window.location.href = "match-board/edit";
 }
 
 function getEvents(dataSet){
-	var apply = new Array();
-	var register = new Array();
-	apply = dataSet[1].apply;
-	register = dataSet[1].register;
-	var eventsArray = new Array();
-	for (var i=0; i < apply.length; i++){
-		var applyObj = new Object();
-		applyObj.id = apply[i].number;
-		applyObj.title = apply[i].placeName;
-		applyObj.start = new Date(apply[i].date).getFullYear() + "-" +getTwoDigit((new Date(apply[i].date).getMonth() + 1)) + "-" +new Date(apply[i].date).getDate();
-		applyObj.end = new Date(apply[i].date).getFullYear() + "-" +getTwoDigit((new Date(apply[i].date).getMonth() + 1)) + "-" +new Date(apply[i].date).getDate();
-		applyObj.startTime = apply[i].startTime + ":" + getTwoDigit(apply[i] .startTimeMinutes);
-		applyObj.endTime = apply[i].endTime + ":" + getTwoDigit(apply[i] .endTimeMinutes);
-		applyObj.color = "red";
-		eventsArray.push(applyObj);
-	}
-	for (var i=0; i < register.length; i++){
-		var registerObj = new Object();
-		registerObj.id = register[i].number;
-		registerObj.title = register[i].placeName;
-		registerObj.start = new Date(register[i].date).getFullYear() + "-" +getTwoDigit((new Date(register[i].date).getMonth() + 1)) + "-" +new Date(register[i].date).getDate();
-		registerObj.end = new Date(register[i].date).getFullYear() + "-" +getTwoDigit((new Date(register[i].date).getMonth() + 1)) + "-" +new Date(register[i].date).getDate();
-		registerObj.startTime = register[i].startTime + ":" + getTwoDigit(register[i] .startTimeMinutes);
-		registerObj.endTime = register[i].endTime + ":" + getTwoDigit(register[i] .endTimeMinutes);
-		registerObj.color = "blue";
-		eventsArray.push(registerObj);
-	}
-	return eventsArray;
+   var apply = new Array();
+   var register = new Array();
+   apply = dataSet[1].apply;
+   register = dataSet[1].register;
+   var eventsArray = new Array();
+   for (var i=0; i < apply.length; i++){
+      var applyObj = new Object();
+      applyObj.id = apply[i].number;
+      applyObj.title = apply[i].placeName;
+      applyObj.start = new Date(apply[i].date).getFullYear() + "-" +getTwoDigit((new Date(apply[i].date).getMonth() + 1)) + "-" +new Date(apply[i].date).getDate() + " " + apply[i].startTime + ":" + getTwoDigit(apply[i].startTimeMinutes);
+      applyObj.end = new Date(apply[i].date).getFullYear() + "-" +getTwoDigit((new Date(apply[i].date).getMonth() + 1)) + "-" +new Date(apply[i].date).getDate() + " " + apply[i].endTime + ":" + getTwoDigit(apply[i].endTimeMinutes);
+      applyObj.color = "red";
+      eventsArray.push(applyObj);
+   }
+   for (var i=0; i < register.length; i++){
+      var registerObj = new Object();
+      registerObj.id = register[i].number;
+      registerObj.title = register[i].placeName;
+      registerObj.start = new Date(register[i].date).getFullYear() + "-" +getTwoDigit((new Date(register[i].date).getMonth() + 1)) + "-" +new Date(register[i].date).getDate() + " " + register[i].startTime + ":" + getTwoDigit(register[i].startTimeMinutes);
+      registerObj.end = new Date(register[i].date).getFullYear() + "-" +getTwoDigit((new Date(register[i].date).getMonth() + 1)) + "-" +new Date(register[i].date).getDate() + " " + register[i].endTime + ":" + getTwoDigit(register[i].endTimeMinutes);
+      registerObj.color = "blue";
+      eventsArray.push(registerObj);
+   }
+   return eventsArray;
 }
 
 function getTwoDigit(data){
-	if(data < 10){
-		return '0' + data
-	}else{
-		return data;
-	}
+   if(data < 10){
+      return '0' + data
+   }else{
+      return data;
+   }
 }

@@ -13,5 +13,10 @@ public class MatchResultController {
 	public String get(@PathVariable("number") int number) {
 		return "main-match-result";
 	}
+	
+	@GetMapping("edit")
+	public String get() {
+		return "match-result";
+	}
 
 }

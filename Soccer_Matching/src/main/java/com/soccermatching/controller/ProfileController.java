@@ -1,7 +1,5 @@
 package com.soccermatching.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,7 +25,7 @@ import com.soccermatching.dto.MatchBoardDTO;
 import com.soccermatching.dto.MemberDTO;
 
 @Controller
-@RequestMapping("/profile")
+@RequestMapping("/profile")	
 public class ProfileController {
 
 	@Autowired
