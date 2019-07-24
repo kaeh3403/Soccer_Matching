@@ -32,6 +32,11 @@ public class MatchBoardController {
 	public MatchBoardDTO getOne(@PathVariable("number") int number) {
 		return matchBoardDAO.read(number);
 	}
+	
+	@GetMapping("author/{author}")
+	public List<MatchBoardDTO> registerList(@PathVariable("author") int author) {
+		return matchBoardDAO.readRegisteredList(author);
+	}
 
 	@PutMapping("{number}")
 	public void modify(@PathVariable("number") int number, @RequestBody Map<String, Object> map) {

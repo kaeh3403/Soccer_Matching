@@ -2,8 +2,8 @@ package com.soccermatching.dao;
 
 import java.util.List;
 
-import com.soccermatching.dto.MatchApplyDTO;
+import com.soccermatching.dto.MatchBoardDTO;
 
 public interface MatchApplyDAO {
-	public List<MatchApplyDTO> readAppliedMatch(int memberNumber);
+	public List<MatchBoardDTO> readAppliedMatch(int memberNumber);
 }

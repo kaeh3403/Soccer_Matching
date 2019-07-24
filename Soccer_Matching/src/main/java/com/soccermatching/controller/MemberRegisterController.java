@@ -7,10 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.soccermatching.dao.MemberDAO;
-import com.soccermatching.dao.MemberDAOImpl;
 import com.soccermatching.dto.MemberDTO;
 
 @Controller
