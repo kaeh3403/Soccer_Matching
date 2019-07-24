@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.soccermatching.dao.MatchApplyDAO;
-import com.soccermatching.dto.MatchApplyDTO;
+import com.soccermatching.dto.MatchBoardDTO;
 
 @RestController
 @RequestMapping("/api/match-applies")
@@ -19,7 +19,7 @@ public class MatchApplyController {
 	private MatchApplyDAO matchApplyDAO;
 	
 	@GetMapping("/member/{memberNumber}")
-	public List<MatchApplyDTO> getApplies(@PathVariable("memberNumber") int memberNumber) {
+	public List<MatchBoardDTO> getApplies(@PathVariable("memberNumber") int memberNumber) {
 		return matchApplyDAO.readAppliedMatch(memberNumber);
 	}
 

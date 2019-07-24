@@ -27,7 +27,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		
 		response.addHeader("Member-Number", String.valueOf(memberDTO.getNumber()));
 		
-		response.sendRedirect("main");
+		response.sendRedirect("/main");
 	}
 
 }

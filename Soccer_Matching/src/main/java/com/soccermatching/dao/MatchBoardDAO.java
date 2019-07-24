@@ -18,5 +18,7 @@ public interface MatchBoardDAO {
 			String numberAppliable, String detailInfo, String x, String y, int number);
 
 	public void delete(int number);
+	
+	public List<MatchBoardDTO> readRegisteredList(int number);
 
 }
