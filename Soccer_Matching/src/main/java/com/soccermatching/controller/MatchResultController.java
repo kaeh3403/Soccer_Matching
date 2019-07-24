@@ -11,7 +11,7 @@ public class MatchResultController {
 	
 	@GetMapping("{number}")
 	public String get(@PathVariable("number") int number) {
-		return "match-result";
+		return "main-match-result";
 	}
 
 }

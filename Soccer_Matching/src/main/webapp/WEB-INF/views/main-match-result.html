@@ -51,7 +51,7 @@
 							    </div>
 							    <div class="input-group-prepend" style="flex-direction:column;width:89.5%" >
 							    	<input type="text" class="form-control" id="address" placeholder="지도에서 선택해주세요" name="address" required disabled>					    
-							    	<input type="text" class="form-control" id="detailedAddress" placeholder="상세주소 입력" name="detailAddress" disabled required>
+							    	<input type="text" class="form-control" id="detailAddress" placeholder="상세주소 입력" name="detailAddress" style="background-color: white"  required>
 							    </div>
 						     </div>
 						     <div class="row">
@@ -60,7 +60,7 @@
 								     	<div class="input-group-prepend">
 								     		<span class="input-group-text">경기 일정</span>
 								     	</div>			      
-									    <input type="text" class="form-control" id="fixedDate" name="date" placeholder="달력 선택" disabled required>
+									    <input type="text" class="form-control" id="date" name="date" placeholder="달력 선택"  style="border:0px"required>
 									 </div>
 									 <div class="input-group mt-3 mb-3">
 								     	<div class="input-group-prepend">
@@ -79,7 +79,7 @@
 							     <div class="col-lg-4">
 						     		<div class="input-group mt-3 mb-3">
 						     			<div class="input-group-prepend">
-							     			<span class="input-group-text">시작 시간</span>
+							     			<span class="input-group-text" >시작 시간</span>
 							     		</div>
 							     		&nbsp;
 									    <select id="start_time" name="start_time" disabled></select>
@@ -135,8 +135,8 @@
 							     </div>
 						     </div>
 						     <div class="buttongroups" style="display:flex;flex-direction:row;justify-content:space-between;width:70%;margin-left:auto;margin-right:auto;">
-							    <button type="button" class="btn btn-dark" onclick="history.back()" style="width:100px">뒤로가기</button>
-							    <button type="button" id ="edit" class="btn btn-dark" onclick="applyMatch()" style="width:100px">지원하기</button>
+							    <button type="button" class="btn btn-dark" onclick="history.back()" style="width:100px;background-color:rgb(0,132,161);border:0px;">뒤로가기</button>
+							    <button type="button" id ="edit" class="btn btn-dark" onclick="applyMatch()" style="width:100px;background-color:rgb(0,132,161);border:0px;">지원하기</button>
 						    </div>
 						  </form>
 						</div>
@@ -144,8 +144,7 @@
     	</div>
 	</div>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b187315c60d45782c7546f0eaf4d3bc&libraries=services"></script>
-	<script src="js/match-result.js"></script>
-	<script src="js/match-register.js"></script>
+	<script src="js/main-match-result.js"></script>
 </body>
 
 </html>

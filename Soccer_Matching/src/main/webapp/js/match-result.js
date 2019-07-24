@@ -8,6 +8,7 @@ var game_type = document.getElementById("game_type");
 var gender = document.getElementById("gender");
 var number_appliable = document.getElementById("number_appliable");
 var detailInfo = document.getElementById("detailInfo");
+var date = document.getElementById("date");
 
 var number;
 var map;
@@ -21,6 +22,7 @@ var o_game_type;
 var o_gender;
 var o_number_appliable;
 var o_detailInfo;
+var o_date;
 var o_x;
 var o_y;
 var markers = [];
@@ -34,9 +36,9 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
 
 
 (function(){
-	number = window.localStorage.getItem("number"); 
+	var number = window.sessionStorage.getItem("number");
     var request = new XMLHttpRequest();
-    request.open("POST", "api?number="+ number, true);
+    request.open("GET", "/api/match-boards/"+ number, true);
     request.onreadystatechange = dataParsing;
     request.send(null);
     function dataParsing(){
@@ -45,18 +47,20 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
             number = json.number;
             o_address = json.address;
             o_detailedAddress = json.detailedAddress;
-            o_start_time = json.start_time;
-            o_start_time_minutes = json.start_time_minutes;
-            o_end_time = json.end_time;
-            o_end_time_minutes = json.end_time_minutes;
-            o_game_type = json.game_type;
+            o_date = new Date(json.date).getFullYear() +"-"+( new Date(json.date).getMonth() + 1) + "-"+new Date(json.date).getDate();;
+            o_start_time = json.startTime;
+            o_start_time_minutes = json.startTimeMinutes;
+            o_end_time = json.endTime;
+            o_end_time_minutes = json.endTimeMinutes;
+            o_game_type = json.gameType;
             o_gender = json.gender;
-            o_number_appliable = json.number_appliable;
-            o_detailInfo = json.detail_Info;
+            o_number_appliable = json.numberAppliable;
+            o_detailInfo = json.detailInfo;
             o_x = json.x;
             o_y = json.y;
 
             address.value = o_address;
+            date.value = o_date;
             detailedAddress.value = o_detailedAddress;
             start_time.value = o_start_time;
             start_time_minutes.value = o_start_time_minutes;

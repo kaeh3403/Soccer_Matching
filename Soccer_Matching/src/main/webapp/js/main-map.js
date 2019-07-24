@@ -146,7 +146,7 @@ function removeList(){
 function detailShow(target){
    var number = target.lastChild.lastChild.lastChild.textContent;
    window.sessionStorage.setItem("number",number)
-   window.location.href = "main_match_result.html";
+   window.location.href = "match-board/" + number;
 }
 
 function getTwoDigit(min){

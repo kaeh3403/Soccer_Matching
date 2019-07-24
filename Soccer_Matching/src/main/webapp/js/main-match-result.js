@@ -1,5 +1,4 @@
 var address = document.getElementById("address");
-var detailedAddress = document.getElementById("detailedAddress");
 var start_time = document.getElementById("start_time");
 var start_time_minutes = document.getElementById("start_time_minutes");
 var end_time= document.getElementById("end_time");
@@ -8,11 +7,13 @@ var game_type = document.getElementById("game_type");
 var gender = document.getElementById("gender");
 var number_appliable = document.getElementById("number_appliable");
 var detailInfo = document.getElementById("detailInfo");
+var detailAddress = document.getElementById("detailAddress");
+var date = document.getElementById("date");
 
 var number;
 var map;
 var o_address;
-var o_detailedAddress;
+var o_detailAddress;
 var o_start_time;
 var o_start_time_minutes;
 var o_end_time;
@@ -34,9 +35,34 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
 
 
 (function(){
-	number = window.localStorage.getItem("number"); 
+	
+	start_time = document.getElementById("start_time");
+    var html = "<option value='' selected disabled>00시</option>";
+    for (var i = 0; i <= 24; i++) {
+      if (i < 10) {
+        html += "<option value=" + i + ">" + "0" + i + "시" + "</option>"
+      } else {
+        html += "<option value=" + i + ">" + i + "시" + "</option>"
+      }
+    }
+    start_time.innerHTML = html;
+
+    end_time = document.getElementById("end_time");
+    var endHtml = "<option value='' selected disabled>00시</option>";
+    for (var i = 0; i <= 24; i++) {
+      if (i < 10) {
+        endHtml += "<option value=" + i + ">" + "0" + i + "시" + "</option>"
+      } else {
+        endHtml += "<option value=" + i + ">" + i + "시" + "</option>"
+      }
+    }
+    
+    end_time.innerHTML = endHtml;
+    
+    
+	number = window.sessionStorage.getItem("number"); 
     var request = new XMLHttpRequest();
-    request.open("POST", "api?number="+ number, true);
+    request.open("GET", "/api/match-boards/"+ number, true);
     request.onreadystatechange = dataParsing;
     request.send(null);
     function dataParsing(){
@@ -44,21 +70,22 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
             var json = JSON.parse(request.responseText);
             number = json.number;
             o_address = json.address;
-            o_detailedAddress = json.detailedAddress;
-            o_start_time = json.start_time;
-            o_start_time_minutes = json.start_time_minutes;
-            o_end_time = json.end_time;
-            o_end_time_minutes = json.end_time_minutes;
-            o_game_type = json.game_type;
+            o_detailAddress = noData(json.detailAddress);
+            o_start_time = json.startTime;
+            o_start_time_minutes = json.startTimeMinutes;
+            o_end_time = json.endTime;
+            o_end_time_minutes = json.endTimeMinutes;
+            o_game_type = json.gameType;
             o_gender = json.gender;
-            o_number_appliable = json.number_appliable;
-            o_detailInfo = json.detail_Info;
+            o_number_appliable = json.numberAppliable;
+            o_detailInfo = json.detailInfo;
+            o_date = new Date(json.date).getFullYear() +"-"+( new Date(json.date).getMonth() + 1) + "-"+new Date(json.date).getDate();
             o_x = json.x;
             o_y = json.y;
 
             address.value = o_address;
-            detailedAddress.value = o_detailedAddress;
             start_time.value = o_start_time;
+            detailAddress.value = o_detailAddress;
             start_time_minutes.value = o_start_time_minutes;
             end_time.value = o_end_time;
             end_time_minutes.value = o_end_time_minutes;
@@ -66,6 +93,7 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
             gender.value = o_gender;
             number_appliable.value = o_number_appliable;
             detailInfo.value = o_detailInfo;
+            date.value=o_date;
             mapOnlyMarker(o_y, o_x);
         } else{
             alert("네트워크 에러 발생");
@@ -88,7 +116,6 @@ function applyMode(){
     }
 }
 
-
 function mapOnlyMarker(o_y, o_x){
     // 마커를 담을 배열입니다
     mapOption = {
@@ -104,4 +131,13 @@ function mapOnlyMarker(o_y, o_x){
     });
     // 마커가 지도 위에 표시되도록 설정합니다
     marker.setMap(map);
+}
+
+function noData(data){
+	   if(data == null){
+		  detailAddress.removeAttribute("placeholder");
+	      return "";
+	   }else{
+	      return data;
+	   }
 }
