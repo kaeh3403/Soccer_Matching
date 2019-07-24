@@ -1,6 +1,42 @@
+var memberNum;
+var data;
+var parsedData;
+var calData;
+var calendar;
+
 document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+
+	var request = new XMLHttpRequest();
+	request.open("GET", "/profile", true);
+	request.onreadystatechange = getData;
+	request.send();
+
+	function getData(){
+		   if(request.readyState == request.HEADERS_RECEIVED){
+		      memberNum = request.getResponseHeader("Member-Number");
+		  var dataRead = new XMLHttpRequest();
+		  dataRead.open("GET", "/profile/info",true);
+		  dataRead.onreadystatechange = getContents;
+		  dataRead.send();
+		  function getContents(){
+		     if(dataRead.readyState == 4 && dataRead.status==200){
+		        data = dataRead.responseText;
+		        parsedData = JSON.parse(data);
+		        document.getElementById("id").textContent = parsedData[0].name;
+		        calData = new Array();
+		        calData = getEvents(parsedData);
+		        getCalendar(calData);
+		     }else{
+		        alert("데이터를 불러오지 못했습니다.")
+		         }
+		      }
+		   }
+		}
+})
+
+function getCalendar(calData){
+	var calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: ['dayGrid', 'list', 'bootstrap', 'interaction', ],
         locale: 'ko', //언어설정
         height: '700', // 전체 테이블 높이 설정
@@ -10,23 +46,13 @@ document.addEventListener('DOMContentLoaded', function() {
             hour: 'numeric',
             meridiem: '2-digit'
         },
-        
         views:{
            list:{
               duration: { days: 30}
            }
         },
         displayEventTime: true, //이벤트의 시간 표시 여부
-
-        events: [ //이벤트 데이터
-            {
-                id: 'a',
-                title: '은평 롯데몰 A구장 "혼성매치"',
-                start: '2019-07-23 16:00',
-                end: '2019-07-23 18:00',
-                color: 'red'
-            }
-        ],
+        events: calData,
         header: {
             left: 'prev,,next today',
             center: 'title',
@@ -36,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             today: '오늘',
             dayGridMonth: '월간',
             listWeek: '리스트',
-            day: ''
+            day: ""
         },
         eventClick: function(info) {
             modalClicking(info);
@@ -61,10 +87,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-
     calendar.render();
     ilkilling();
-})
+}
 
 document.addEventListener('DOMSubtreeModified', function() {
     var ilremover = document.getElementsByClassName("fc-day-number");
@@ -88,7 +113,7 @@ function modalClicking(info) {
 }
 
 function modalHeader(info) {
-    document.getElementsByClassName("modal-title")[0].textContent = new Date(info.event.start).getFullYear() + "년 " + (new Date(info.event.start).getMonth() + 1) + '월 ' + new Date(info.event.start).getDate() + '일';
+    document.getElementsByClassName("modal-title")[0].textContent = new Date(info.event.start).getFullYear() + "년 " + (new Date(info.event.start).getMonth() + 1) + '월 ' + new Date(info.event.start).getDate() + '일'; 
     modalBody(info);
 }
 
@@ -146,4 +171,43 @@ function loadMatch(target) {
    var number = target.lastChild.lastChild.textContent;
    window.localStorage.setItem("number", number);
     window.location.href = "match-result.html";
+}
+
+function getEvents(dataSet){
+	var apply = new Array();
+	var register = new Array();
+	apply = dataSet[1].apply;
+	register = dataSet[1].register;
+	var eventsArray = new Array();
+	for (var i=0; i < apply.length; i++){
+		var applyObj = new Object();
+		applyObj.id = apply[i].number;
+		applyObj.title = apply[i].placeName;
+		applyObj.start = new Date(apply[i].date).getFullYear() + "-" +getTwoDigit((new Date(apply[i].date).getMonth() + 1)) + "-" +new Date(apply[i].date).getDate();
+		applyObj.end = new Date(apply[i].date).getFullYear() + "-" +getTwoDigit((new Date(apply[i].date).getMonth() + 1)) + "-" +new Date(apply[i].date).getDate();
+		applyObj.startTime = apply[i].startTime + ":" + getTwoDigit(apply[i] .startTimeMinutes);
+		applyObj.endTime = apply[i].endTime + ":" + getTwoDigit(apply[i] .endTimeMinutes);
+		applyObj.color = "red";
+		eventsArray.push(applyObj);
+	}
+	for (var i=0; i < register.length; i++){
+		var registerObj = new Object();
+		registerObj.id = register[i].number;
+		registerObj.title = register[i].placeName;
+		registerObj.start = new Date(register[i].date).getFullYear() + "-" +getTwoDigit((new Date(register[i].date).getMonth() + 1)) + "-" +new Date(register[i].date).getDate();
+		registerObj.end = new Date(register[i].date).getFullYear() + "-" +getTwoDigit((new Date(register[i].date).getMonth() + 1)) + "-" +new Date(register[i].date).getDate();
+		registerObj.startTime = register[i].startTime + ":" + getTwoDigit(register[i] .startTimeMinutes);
+		registerObj.endTime = register[i].endTime + ":" + getTwoDigit(register[i] .endTimeMinutes);
+		registerObj.color = "blue";
+		eventsArray.push(registerObj);
+	}
+	return eventsArray;
+}
+
+function getTwoDigit(data){
+	if(data < 10){
+		return '0' + data
+	}else{
+		return data;
+	}
 }
