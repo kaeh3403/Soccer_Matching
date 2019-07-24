@@ -50,7 +50,7 @@ public class MatchBoardController {
 		String endTimeMinutes = (String) map.get("end_time_minutes");
 		String gameType = (String) map.get("game_type");
 		String gender = (String) map.get("gender");
-		String numberAppliable = (String) map.get("number_appliable");
+		int numberAppliable = (int) map.get("number_appliable");
 		String detailInfo = (String) map.get("detail_info");
 		String x = (String) map.get("x");
 		String y = (String) map.get("y");

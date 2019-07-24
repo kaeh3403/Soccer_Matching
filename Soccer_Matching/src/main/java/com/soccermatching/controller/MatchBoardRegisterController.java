@@ -47,9 +47,8 @@ public class MatchBoardRegisterController {
 		
 		matchBoardDAO.create(matchBoardDTO);
 		
-		//redirectAttributes.addFlashAttribute("msg", 1);
 		
-		return "redirect:main?msg=1";
+		return "redirect:";
 	}
 
 }

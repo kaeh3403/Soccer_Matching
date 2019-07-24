@@ -30,7 +30,9 @@ public class MatchBoardDAOImpl implements MatchBoardDAO {
 			return null;
 		}
 	}
-
+	
+	
+	
 	@Override
 	public void create(MatchBoardDTO matchBoardDTO) {
 		jdbcTemplate.update(
@@ -45,7 +47,7 @@ public class MatchBoardDAOImpl implements MatchBoardDAO {
 	@Override
 	public void update(String address, String detailAddress, String placeName, Date date, String startTime,
 			String startTimeMinutes, String endTime, String endTimeMinutes, String gameType, String gender,
-			String numberAppliable, String detailInfo, String x, String y, int number) {
+			int numberAppliable, String detailInfo, String x, String y, int number) {
 
 		jdbcTemplate.update(
 				"update match_board set address = ?, detail_address = ?, place_name = ?, date = ?, start_time = ?, start_time_minutes = ?, end_time = ?, end_time_minutes = ?, game_type = ?, gender = ?, number_appliable = ?, detail_info, x = ?, y = ? where number = ?",
@@ -62,6 +64,14 @@ public class MatchBoardDAOImpl implements MatchBoardDAO {
 	@Override
 	public List<MatchBoardDTO> readRegisteredList(int number) {
 		return jdbcTemplate.query("select * from match_board where author like ? ", new MatchBoardDTOMapper(), number);
+	}
+
+	
+	@Override
+	public int readNumberAppliable(int number) {
+		
+		return jdbcTemplate.queryForObject("select number_appliable from match_board where number = ?",Integer.class, number);
+		
 	}
 	
 }

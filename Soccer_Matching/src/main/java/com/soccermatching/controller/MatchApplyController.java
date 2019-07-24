@@ -22,5 +22,7 @@ public class MatchApplyController {
 	public List<MatchBoardDTO> getApplies(@PathVariable("memberNumber") int memberNumber) {
 		return matchApplyDAO.readAppliedMatch(memberNumber);
 	}
-
+	
+	
+	
 }

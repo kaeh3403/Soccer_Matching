@@ -15,10 +15,12 @@ public interface MatchBoardDAO {
 
 	public void update(String address, String detailAddress, String placeName, Date date, String startTime,
 			String startTimeMinutes, String endTime, String endTimeMinutes, String gameType, String gender,
-			String numberAppliable, String detailInfo, String x, String y, int number);
+			int numberAppliable, String detailInfo, String x, String y, int number);
 
 	public void delete(int number);
 	
 	public List<MatchBoardDTO> readRegisteredList(int number);
+	
+	public int readNumberAppliable(int number);
 
 }

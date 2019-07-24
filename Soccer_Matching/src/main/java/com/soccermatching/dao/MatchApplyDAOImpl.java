@@ -35,4 +35,17 @@ public class MatchApplyDAOImpl implements MatchApplyDAO {
 		}
 	}
 
+	@Override
+	public void create(MatchApplyDTO matchApplyDTO) {
+		jdbcTemplate.update("insert into match_apply (member_number, match_board_number) values (?, ?)",
+				matchApplyDTO.getMemberNumber(), matchApplyDTO.getMatchBoardNumber());
+
+	}
+
+	@Override
+	public int count(int matchBoardNumber) {
+		return jdbcTemplate.queryForObject("select count(*) from match_apply where match_board_number = ?", Integer.class, matchBoardNumber);
+		
+	}
+
 }
