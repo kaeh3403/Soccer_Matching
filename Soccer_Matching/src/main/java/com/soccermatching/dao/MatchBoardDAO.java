@@ -2,7 +2,9 @@ package com.soccermatching.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import com.soccermatching.dto.DailyMatchCountDTO;
 import com.soccermatching.dto.MatchBoardDTO;
 
 public interface MatchBoardDAO {
@@ -20,5 +22,7 @@ public interface MatchBoardDAO {
 	public void delete(int number);
 	
 	public List<MatchBoardDTO> readRegisteredList(int number);
+	
+	public List<DailyMatchCountDTO> readDailyMatchCount();
 
 }

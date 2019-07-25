@@ -1,13 +1,17 @@
 package com.soccermatching.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.soccermatching.dto.DailyMatchCountDTO;
 import com.soccermatching.dto.MatchBoardDTO;
 
 @Repository
@@ -62,6 +66,24 @@ public class MatchBoardDAOImpl implements MatchBoardDAO {
 	@Override
 	public List<MatchBoardDTO> readRegisteredList(int number) {
 		return jdbcTemplate.query("select * from match_board where author like ? ", new MatchBoardDTOMapper(), number);
+	}
+
+	@Override
+	public List<DailyMatchCountDTO> readDailyMatchCount() {
+		return jdbcTemplate.query("select date, count(*) as match_count from match_board group by date order by date", new DailyMatchCountDTOMapper());
+	}
+	
+	public final class DailyMatchCountDTOMapper implements RowMapper<DailyMatchCountDTO> {
+
+		@Override
+		public DailyMatchCountDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			DailyMatchCountDTO dailyMatchCountDTO = new DailyMatchCountDTO();
+			dailyMatchCountDTO.setDate(rs.getDate("date"));
+			dailyMatchCountDTO.setMatchCount(rs.getInt("match_count"));
+
+			return dailyMatchCountDTO;
+		}
+
 	}
 	
 }

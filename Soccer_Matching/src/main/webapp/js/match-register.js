@@ -1,5 +1,5 @@
 var address = document.getElementById("address");
-var detailAddress = document.getElementById("detailedAddress");
+var placeName = document.getElementById("placeName");
 var date = document.getElementById("date");
 var start_time = document.getElementById("start_time");
 var start_time_minutes = document.getElementById("start_time_minutes");
@@ -10,7 +10,7 @@ var gender = document.getElementById("gender");
 var number_appliable = document.getElementById("number_appliable");
 
 (function() {
-  'use strict ';																								
+  'use strict ';                                                                        
   window.addEventListener('load', function() {
     var startTime = document.getElementById("start_time");
     var html = "<option value='' selected disabled>00시</option>";
@@ -34,9 +34,9 @@ var number_appliable = document.getElementById("number_appliable");
     }
     endTime.innerHTML = endHtml;
 
-    // Get the forms we want to add validation styles to																							
+    // Get the forms we want to add validation styles to                                                                     
     var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission																								
+    // Loop over them and prevent submission                                                                        
     var validation = Array.prototype.filter.call(forms, function(form) {
       form.addEventListener('submit', function(event) {
         if (checkValue(address)) {

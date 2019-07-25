@@ -15,7 +15,7 @@ public class MatchBoardDTO {
 	private String endTimeMinutes;
 	private String gameType;
 	private String gender;
-	private String numberAppliable;
+	private int numberAppliable;
 	private String detailInfo;
 	private String x;
 	private String y;
@@ -117,11 +117,11 @@ public class MatchBoardDTO {
 		this.gender = gender;
 	}
 
-	public String getNumberAppliable() {
+	public int getNumberAppliable() {
 		return numberAppliable;
 	}
-
-	public void setNumberAppliable(String numberAppliable) {
+	
+	public void setNumberAppliable(int numberAppliable) {
 		this.numberAppliable = numberAppliable;
 	}
 
