@@ -74,10 +74,12 @@ function clustering(){
          data = request.responseText;
          matches = JSON.parse(data);
          for (var i= 0; i< matches.length; i++){
-            var tempObj = new Object();
-            tempObj.lat = matches[i].y;
-            tempObj.lng = matches[i].x;
-            posData.push(tempObj);
+            if(matches[i].date > new Date().getTime()){
+               var tempObj = new Object();
+                tempObj.lat = matches[i].y;
+                tempObj.lng = matches[i].x;
+                posData.push(tempObj);   
+            }
          };
          var markers = posData.map(function(position, i){
               return new kakao.maps.Marker({
@@ -117,7 +119,7 @@ function getNELatLng(){
 function getList(){
    var list = matches.map(function(match, i){
       if(swLat < Number(match.x) && neLat > Number(match.x) && swLng < Number(match.y) && neLng > Number(match.y) && Number(clickedDay) == new Date(new Date(match.date)).getDate()){
-    	  
+         
          var newDiv = document.createElement("div");
          newDiv.setAttribute("class","contents");
          newDiv.setAttribute("onclick","detailShow(this)");
@@ -158,9 +160,11 @@ function getTwoDigit(min){
 }
 
 function changeDate(el){
-	   clickedDay = el.childNodes[1].childNodes[2].textContent;
-	   for(var i=0;i<el.parentNode.children.length; i++){
-	      el.parentNode.children[i].style.background = "white";
-	   }
-	   el.style.background = "#cccccc";
-	}
+   clickedDay = el.childNodes[1].childNodes[2].textContent;
+   for(var i=0;i<el.parentNode.children.length; i++){
+      el.parentNode.children[i].style.background = "white";
+   }
+   el.style.background = "#cccccc";
+   removeList();
+   getList();
+}

@@ -27,7 +27,8 @@ public class MainController {
 			MemberDTO memberDTO = memberDAO.read(principal.getName());
 
 			response.addHeader("Member-Number", String.valueOf(memberDTO.getNumber()));
-
+			
+			return "login-main";
 		}
 
 		return "main";

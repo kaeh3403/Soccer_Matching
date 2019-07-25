@@ -7,13 +7,13 @@ var game_type = document.getElementById("game_type");
 var gender = document.getElementById("gender");
 var number_appliable = document.getElementById("number_appliable");
 var detailInfo = document.getElementById("detailInfo");
-var detailAddress = document.getElementById("detailAddress");
+var placeName = document.getElementById("placeName");
 var date = document.getElementById("date");
 
 var number;
 var map;
 var o_address;
-var o_detailAddress;
+var o_placeName;
 var o_start_time;
 var o_start_time_minutes;
 var o_end_time;
@@ -35,8 +35,8 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
 
 
 (function(){
-	
-	start_time = document.getElementById("start_time");
+   
+   start_time = document.getElementById("start_time");
     var html = "<option value='' selected disabled>00시</option>";
     for (var i = 0; i <= 24; i++) {
       if (i < 10) {
@@ -60,7 +60,7 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
     end_time.innerHTML = endHtml;
     
     
-	number = window.sessionStorage.getItem("number"); 
+   number = window.sessionStorage.getItem("number"); 
     var request = new XMLHttpRequest();
     request.open("GET", "/api/match-boards/"+ number, true);
     request.onreadystatechange = dataParsing;
@@ -70,7 +70,7 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
             var json = JSON.parse(request.responseText);
             number = json.number;
             o_address = json.address;
-            o_detailAddress = noData(json.detailAddress);
+            o_placeName = json.placeName;
             o_start_time = json.startTime;
             o_start_time_minutes = json.startTimeMinutes;
             o_end_time = json.endTime;
@@ -85,7 +85,7 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
 
             address.value = o_address;
             start_time.value = o_start_time;
-            detailAddress.value = o_detailAddress;
+            placeName.value = o_placeName;
             start_time_minutes.value = o_start_time_minutes;
             end_time.value = o_end_time;
             end_time_minutes.value = o_end_time_minutes;
@@ -102,17 +102,17 @@ var mapContainer = document.getElementById('map'); // 지도를 표시할
 })();
 
 function applyMode(){
-	var request = new XMLHttpRequest();
+   var request = new XMLHttpRequest();
     request.open("GET", "api?number="+number, true);
     request.onreadystatechange = checkInfo;
     request.send(null);
     
     function checkInfo(){
-    	if(request.readyState == request.DONE && request.status == 200){
-    		
-    	}else{
-    		alert("지원하기가 되지 않았습니다.!!!!")
-    	}
+       if(request.readyState == request.DONE && request.status == 200){
+          
+       }else{
+          alert("지원하기가 되지 않았습니다.!!!!")
+       }
     }
 }
 
@@ -131,13 +131,4 @@ function mapOnlyMarker(o_y, o_x){
     });
     // 마커가 지도 위에 표시되도록 설정합니다
     marker.setMap(map);
-}
-
-function noData(data){
-	   if(data == null){
-		  detailAddress.removeAttribute("placeholder");
-	      return "";
-	   }else{
-	      return data;
-	   }
 }
