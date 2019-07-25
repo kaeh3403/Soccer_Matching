@@ -22,7 +22,7 @@ public final class MatchBoardDTOMapper implements RowMapper<MatchBoardDTO> {
 		matchBoardDTO.setGameType(rs.getString("game_type"));
 		matchBoardDTO.setGender(rs.getString("gender"));
 		matchBoardDTO.setNumber(rs.getInt("number"));
-		matchBoardDTO.setNumberAppliable(rs.getString("number_appliable"));
+		matchBoardDTO.setNumberAppliable(rs.getInt("number_appliable"));
 		matchBoardDTO.setPlaceName(rs.getString("place_name"));
 		matchBoardDTO.setRegisterDate(rs.getDate("register_date"));
 		matchBoardDTO.setStartTime(rs.getString("start_time"));

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.soccermatching.dao.MatchBoardDAO;
+import com.soccermatching.dto.DailyMatchCountDTO;
 import com.soccermatching.dto.MatchBoardDTO;
 
 @RestController
@@ -36,6 +37,11 @@ public class MatchBoardController {
 	@GetMapping("author/{author}")
 	public List<MatchBoardDTO> registerList(@PathVariable("author") int author) {
 		return matchBoardDAO.readRegisteredList(author);
+	}
+	
+	@GetMapping("daily-match-count")
+	public List<DailyMatchCountDTO> getDailyMatchCount() {
+		return matchBoardDAO.readDailyMatchCount();
 	}
 
 	@PutMapping("{number}")
