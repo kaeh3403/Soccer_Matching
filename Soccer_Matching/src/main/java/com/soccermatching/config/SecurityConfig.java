@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.formLogin().failureHandler(authenticationFailureHandler).successHandler(authenticationSuccessHandler)
 				.loginPage("/main").usernameParameter("id").passwordParameter("password").and().authorizeRequests()
-				.antMatchers("/profile").authenticated().and().logout()
+				.antMatchers("/admin").hasRole("ADMIN").antMatchers("/profile").authenticated().and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
 	}
 
