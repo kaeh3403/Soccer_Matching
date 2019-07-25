@@ -1,11 +1,13 @@
 package com.soccermatching.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,9 +26,12 @@ public class MatchApplyController {
 		return matchApplyDAO.readAppliedMatch(memberNumber);
 	}
 	
-	@DeleteMapping("/member/{memberNumber}")
-	public void cancel(@PathVariable("memberNumber") int number) {
-		matchApplyDAO.cancel(number);
+	@DeleteMapping("/cancel")
+	public void cancel(@RequestBody Map<String, Object> map) {
+		int memberNumber = (int) map.get("memberNumber");
+		int matchBoardNumber = (int) map.get("matchBoardNumber");
+		
+		matchApplyDAO.cancel(memberNumber, matchBoardNumber);
 	}
 	
 }

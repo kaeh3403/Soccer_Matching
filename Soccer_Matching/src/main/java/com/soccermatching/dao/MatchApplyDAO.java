@@ -12,5 +12,5 @@ public interface MatchApplyDAO {
 	
 	public int count(int matchBoardNumber);
 	
-	public void cancel(int memberNumber);
+	public void cancel(int memberNumber, int matchBoardNumber);
 }

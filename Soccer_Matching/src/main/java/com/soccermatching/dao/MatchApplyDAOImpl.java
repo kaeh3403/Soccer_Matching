@@ -49,8 +49,8 @@ public class MatchApplyDAOImpl implements MatchApplyDAO {
 	}
 
 	@Override
-	public void cancel(int memberNumber) {
-		jdbcTemplate.update("delete from match_apply where number = ?", memberNumber);
+	public void cancel(int memberNumber, int matchBoardNumber) {
+		jdbcTemplate.update("delete from match_apply where member_number = ? and match_board_number = ?", memberNumber, matchBoardNumber);
 		
 	}
 
