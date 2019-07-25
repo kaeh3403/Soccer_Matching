@@ -120,7 +120,7 @@ public class MatchBoardDTO {
 	public int getNumberAppliable() {
 		return numberAppliable;
 	}
-	
+
 	public void setNumberAppliable(int numberAppliable) {
 		this.numberAppliable = numberAppliable;
 	}
